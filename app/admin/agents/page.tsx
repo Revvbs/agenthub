@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
+import { Bot, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Agent {
   id: string;
@@ -42,72 +43,100 @@ export default function AdminAgents() {
       .finally(() => setLoading(false));
   }, [token, page, statusFilter]);
 
+  const statusOptions = [
+    { value: '', label: 'All' },
+    { value: 'active', label: 'Active' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'inactive', label: 'Inactive' },
+  ];
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-bold mb-2 text-gray-900">Agents</h1>
-          <p className="text-gray-500">Monitor all deployed agents</p>
+          <h1 className="text-3xl font-bold text-slate-900">Agents</h1>
+          <p className="text-slate-500 mt-1">Monitor all deployed agents</p>
         </div>
-        <div className="text-sm text-gray-500">{pagination.total} total agents</div>
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <Bot className="w-4 h-4" />
+          <span className="font-medium text-slate-700">{pagination.total}</span> total agents
+        </div>
       </div>
 
       {/* Status Filter */}
       <div className="flex gap-2 mb-6">
-        {['', 'active', 'pending', 'inactive'].map((s) => (
+        {statusOptions.map((s) => (
           <button
-            key={s}
-            onClick={() => { setStatusFilter(s); setPage(1); }}
-            className={`px-4 py-2 rounded text-sm transition ${
-              statusFilter === s
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            key={s.value}
+            onClick={() => { setStatusFilter(s.value); setPage(1); }}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+              statusFilter === s.value
+                ? 'bg-violet-600 text-white shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
             }`}
           >
-            {s === '' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}
+            {s.label}
           </button>
         ))}
       </div>
 
       {/* Table */}
-      <div className="border border-gray-200 rounded bg-white overflow-hidden shadow-sm">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-500 border-b border-gray-200 bg-gray-50">
-              <th className="text-left px-4 py-3">Agent Name</th>
-              <th className="text-left px-4 py-3">Type</th>
-              <th className="text-left px-4 py-3">User</th>
-              <th className="text-left px-4 py-3">Status</th>
-              <th className="text-right px-4 py-3">Messages</th>
-              <th className="text-right px-4 py-3">Tokens</th>
-              <th className="text-right px-4 py-3">Created</th>
+            <tr className="text-left text-slate-500 border-b border-slate-200 bg-slate-50/50">
+              <th className="px-6 py-3.5 font-medium">Agent Name</th>
+              <th className="px-6 py-3.5 font-medium">Type</th>
+              <th className="px-6 py-3.5 font-medium">User</th>
+              <th className="px-6 py-3.5 font-medium">Status</th>
+              <th className="px-6 py-3.5 font-medium text-right">Messages</th>
+              <th className="px-6 py-3.5 font-medium text-right">Tokens</th>
+              <th className="px-6 py-3.5 font-medium text-right">Created</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {loading ? (
-              <tr><td colSpan={7} className="text-center py-12 text-gray-500">Loading...</td></tr>
+              <tr>
+                <td colSpan={7} className="text-center py-16 text-slate-500">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-violet-600"></div>
+                    Loading...
+                  </div>
+                </td>
+              </tr>
             ) : agents.length === 0 ? (
-              <tr><td colSpan={7} className="text-center py-12 text-gray-500">No agents found</td></tr>
+              <tr>
+                <td colSpan={7} className="text-center py-16 text-slate-500">
+                  <Bot className="w-10 h-10 mx-auto text-slate-300 mb-2" />
+                  No agents found
+                </td>
+              </tr>
             ) : (
               agents.map((a) => (
-                <tr key={a.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 font-semibold text-gray-900">{a.name}</td>
-                  <td className="px-4 py-3 text-gray-500">{a.type}</td>
-                  <td className="px-4 py-3">
-                    <Link href={`/admin/users/${a.user_id}`} className="text-blue-600 hover:underline">
+                <tr key={a.id} className="hover:bg-slate-50 transition-colors duration-150">
+                  <td className="px-6 py-3.5 font-semibold text-slate-900">{a.name}</td>
+                  <td className="px-6 py-3.5 text-slate-500">{a.type}</td>
+                  <td className="px-6 py-3.5">
+                    <Link
+                      href={`/admin/users/${a.user_id}`}
+                      className="inline-flex items-center gap-1 text-violet-600 hover:text-violet-700 font-medium transition-colors"
+                    >
                       {a.user_email}
+                      <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      a.status === 'active' ? 'bg-green-100 text-green-700' :
-                      a.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-gray-100 text-gray-500'
-                    }`}>{a.status}</span>
+                  <td className="px-6 py-3.5">
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      a.status === 'active' ? 'bg-emerald-50 text-emerald-700' :
+                      a.status === 'pending' ? 'bg-amber-50 text-amber-700' :
+                      'bg-slate-100 text-slate-600'
+                    }`}>
+                      {a.status}
+                    </span>
                   </td>
-                  <td className="text-right px-4 py-3 text-gray-900">{a.total_messages.toLocaleString()}</td>
-                  <td className="text-right px-4 py-3 text-gray-900">{a.total_tokens.toLocaleString()}</td>
-                  <td className="text-right px-4 py-3 text-gray-500">{new Date(a.created_at).toLocaleDateString()}</td>
+                  <td className="px-6 py-3.5 text-right text-slate-900">{a.total_messages.toLocaleString()}</td>
+                  <td className="px-6 py-3.5 text-right text-slate-900">{a.total_tokens.toLocaleString()}</td>
+                  <td className="px-6 py-3.5 text-right text-slate-500">{new Date(a.created_at).toLocaleDateString()}</td>
                 </tr>
               ))
             )}
@@ -117,18 +146,26 @@ export default function AdminAgents() {
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-3 mt-6">
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
-          >← Prev</button>
-          <span className="px-4 py-2 text-gray-500">Page {page} of {pagination.totalPages}</span>
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-all duration-200"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Prev
+          </button>
+          <span className="text-sm text-slate-500">
+            Page <span className="font-medium text-slate-700">{page}</span> of {pagination.totalPages}
+          </span>
           <button
             onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
             disabled={page === pagination.totalPages}
-            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
-          >Next →</button>
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-all duration-200"
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       )}
     </div>

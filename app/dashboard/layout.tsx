@@ -4,6 +4,21 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ProtectedRoute } from '@/lib/protected-route';
 import { useAuth } from '@/lib/auth-context';
+import {
+  LayoutDashboard,
+  Bot,
+  BarChart3,
+  Settings,
+  LogOut,
+  ChevronLeft,
+} from 'lucide-react';
+
+const navItems = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard/agents', label: 'My Agents', icon: Bot },
+  { href: '/dashboard/usage', label: 'Usage', icon: BarChart3 },
+  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+];
 
 export default function DashboardLayout({
   children,
@@ -13,66 +28,80 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  const navItems = [
-    { href: '/dashboard', label: '📊 Dashboard', icon: '📊' },
-    { href: '/dashboard/agents', label: '🤖 My Agents', icon: '🤖' },
-    { href: '/dashboard/usage', label: '⚡ Usage', icon: '⚡' },
-    { href: '/dashboard/settings', label: '⚙️ Settings', icon: '⚙️' },
-  ];
-
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-white text-gray-900">
+      <div className="min-h-screen bg-[#F8FAFC] text-slate-900" style={{ fontFamily: "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" }}>
         {/* Sidebar */}
-        <div className="fixed left-0 top-0 w-64 h-screen border-r border-gray-200 bg-white p-6 flex flex-col">
-          <div className="text-2xl font-bold mb-8">
-            <Link href="/">
-              <span className="text-blue-600">&lt;</span>
-              AgentHub
-              <span className="text-blue-600">/&gt;</span>
+        <aside className="fixed left-0 top-0 w-64 h-screen border-r border-slate-200 bg-white flex flex-col z-30">
+          {/* Logo */}
+          <div className="px-6 pt-6 pb-4">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-lg font-bold text-slate-900 tracking-tight">
+                AgentHub
+              </span>
             </Link>
           </div>
-          
+
           {/* User info */}
-          <div className="mb-6 p-3 bg-gray-50 rounded border border-gray-200">
-            <div className="text-sm text-gray-500">Logged in as</div>
-            <div className="font-semibold truncate">{user?.email}</div>
-            <div className="text-xs text-blue-600 mt-1 uppercase">{user?.plan} Plan</div>
+          <div className="mx-4 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">
+              Signed in as
+            </div>
+            <div className="text-sm font-semibold text-slate-800 truncate">
+              {user?.email}
+            </div>
+            <div className="mt-1.5">
+              <span className="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 capitalize">
+                {user?.plan} Plan
+              </span>
+            </div>
           </div>
 
-          <nav className="space-y-2 flex-1">
+          {/* Navigation */}
+          <nav className="flex-1 px-3 space-y-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
+              const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block px-4 py-2 rounded transition ${
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'hover:bg-gray-100 text-gray-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
                 >
+                  <Icon className={`w-5 h-5 flex-shrink-0 ${
+                    isActive ? 'text-indigo-600' : 'text-slate-400'
+                  }`} />
                   {item.label}
                 </Link>
               );
             })}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-gray-200">
+          {/* Bottom actions */}
+          <div className="px-3 pb-6 space-y-1">
             <button
               onClick={logout}
-              className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition"
+              className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
             >
-              Logout
+              <LogOut className="w-5 h-5 flex-shrink-0" />
+              Sign out
             </button>
           </div>
-        </div>
+        </aside>
 
         {/* Main content */}
-        <div className="ml-64 p-8">
-          {children}
-        </div>
+        <main className="ml-64 min-h-screen">
+          <div className="p-8">
+            {children}
+          </div>
+        </main>
       </div>
     </ProtectedRoute>
   );

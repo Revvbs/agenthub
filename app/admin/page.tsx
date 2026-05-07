@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
+import { Users, Bot, MessageSquare, DollarSign, TrendingUp, ExternalLink } from 'lucide-react';
 
 interface AdminStats {
   users: { total: number; newThisWeek: number };
@@ -37,87 +38,144 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600"></div>
       </div>
     );
   }
 
+  const statCards = [
+    {
+      label: 'Total Users',
+      value: stats?.users.total || 0,
+      sub: `+${stats?.users.newThisWeek || 0} this week`,
+      subColor: 'text-emerald-600',
+      icon: Users,
+      href: '/admin/users',
+    },
+    {
+      label: 'Total Agents',
+      value: stats?.agents.total || 0,
+      sub: `${stats?.agents.active || 0} active`,
+      subColor: 'text-emerald-600',
+      icon: Bot,
+      href: '/admin/agents',
+    },
+    {
+      label: 'Total Messages',
+      value: (stats?.usage.totalMessages || 0).toLocaleString(),
+      sub: `${((stats?.usage.totalTokens || 0) / 1000).toFixed(0)}K tokens`,
+      subColor: 'text-slate-500',
+      icon: MessageSquare,
+      href: null,
+    },
+    {
+      label: 'Revenue',
+      value: `Rp ${(stats?.billing.totalRevenue || 0).toLocaleString()}`,
+      sub: `${stats?.billing.paidCount || 0} payments`,
+      subColor: 'text-slate-500',
+      icon: DollarSign,
+      href: '/admin/billing',
+    },
+  ];
+
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500">System overview and management</p>
+        <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+        <p className="text-slate-500 mt-1">System overview and management</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Link href="/admin/users" className="border border-gray-200 rounded p-6 bg-white shadow-sm hover:border-purple-500 transition">
-          <div className="text-3xl mb-2">👥</div>
-          <div className="text-gray-500 text-sm">Total Users</div>
-          <div className="text-2xl font-bold text-gray-900">{stats?.users.total || 0}</div>
-          <div className="text-xs text-green-600 mt-1">+{stats?.users.newThisWeek || 0} this week</div>
-        </Link>
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          const content = (
+            <>
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center">
+                  <Icon className="w-5 h-5 text-violet-600" />
+                </div>
+                {card.href && (
+                  <ExternalLink className="w-4 h-4 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                )}
+              </div>
+              <div className="text-sm text-slate-500 mb-1">{card.label}</div>
+              <div className="text-2xl font-bold text-slate-900">{card.value}</div>
+              <div className={`text-xs mt-1 ${card.subColor}`}>{card.sub}</div>
+            </>
+          );
 
-        <Link href="/admin/agents" className="border border-gray-200 rounded p-6 bg-white shadow-sm hover:border-purple-500 transition">
-          <div className="text-3xl mb-2">🤖</div>
-          <div className="text-gray-500 text-sm">Total Agents</div>
-          <div className="text-2xl font-bold text-gray-900">{stats?.agents.total || 0}</div>
-          <div className="text-xs text-green-600 mt-1">{stats?.agents.active || 0} active</div>
-        </Link>
-
-        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
-          <div className="text-3xl mb-2">💬</div>
-          <div className="text-gray-500 text-sm">Total Messages</div>
-          <div className="text-2xl font-bold text-gray-900">{(stats?.usage.totalMessages || 0).toLocaleString()}</div>
-          <div className="text-xs text-gray-500 mt-1">{((stats?.usage.totalTokens || 0) / 1000).toFixed(0)}K tokens</div>
-        </div>
-
-        <Link href="/admin/billing" className="border border-gray-200 rounded p-6 bg-white shadow-sm hover:border-purple-500 transition">
-          <div className="text-3xl mb-2">💰</div>
-          <div className="text-gray-500 text-sm">Revenue</div>
-          <div className="text-2xl font-bold text-gray-900">Rp {(stats?.billing.totalRevenue || 0).toLocaleString()}</div>
-          <div className="text-xs text-gray-500 mt-1">{stats?.billing.paidCount || 0} payments</div>
-        </Link>
+          return card.href ? (
+            <Link
+              key={card.label}
+              href={card.href}
+              className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 transition-all duration-200 hover:border-violet-300 hover:shadow-md group"
+            >
+              {content}
+            </Link>
+          ) : (
+            <div
+              key={card.label}
+              className="bg-white border border-slate-200 shadow-sm rounded-xl p-6"
+            >
+              {content}
+            </div>
+          );
+        })}
       </div>
 
       {/* Users by Plan */}
-      <div className="border border-gray-200 rounded p-6 bg-white shadow-sm mb-8">
-        <h2 className="text-xl font-bold mb-4 text-gray-900">Users by Plan</h2>
-        <div className="grid grid-cols-3 gap-4">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 mb-8">
+        <div className="flex items-center gap-2 mb-5">
+          <TrendingUp className="w-5 h-5 text-violet-600" />
+          <h2 className="text-lg font-bold text-slate-900">Users by Plan</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {stats?.usersByPlan.map((item) => (
-            <div key={item.plan} className="text-center p-4 bg-gray-100 rounded">
-              <div className="text-2xl font-bold text-gray-900">{item.count}</div>
-              <div className="text-sm text-gray-500 capitalize">{item.plan}</div>
+            <div key={item.plan} className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
+              <div className="text-2xl font-bold text-slate-900">{item.count}</div>
+              <div className="text-sm text-slate-500 capitalize mt-0.5">{item.plan}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Recent Users */}
-      <div className="border border-gray-200 rounded p-6 bg-white shadow-sm mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Recent Users</h2>
-          <Link href="/admin/users" className="text-sm text-purple-600 hover:underline">View all →</Link>
+      <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 mb-8">
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-violet-600" />
+            <h2 className="text-lg font-bold text-slate-900">Recent Users</h2>
+          </div>
+          <Link href="/admin/users" className="text-sm text-violet-600 hover:text-violet-700 font-medium transition-colors">
+            View all
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-200">
-                <th className="text-left py-2">Email</th>
-                <th className="text-left py-2">Plan</th>
-                <th className="text-right py-2">Tokens</th>
-                <th className="text-right py-2">Joined</th>
+              <tr className="text-left text-slate-500 border-b border-slate-200">
+                <th className="pb-3 font-medium">Email</th>
+                <th className="pb-3 font-medium">Plan</th>
+                <th className="pb-3 font-medium text-right">Tokens</th>
+                <th className="pb-3 font-medium text-right">Joined</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {recentUsers.map((u) => (
-                <tr key={u.id} className="border-b border-gray-200 hover:bg-gray-50">
-                  <td className="py-2">
-                    <Link href={`/admin/users/${u.id}`} className="text-blue-600 hover:underline">{u.email}</Link>
+                <tr key={u.id} className="hover:bg-slate-50 transition-colors duration-150">
+                  <td className="py-3">
+                    <Link href={`/admin/users/${u.id}`} className="text-violet-600 hover:text-violet-700 font-medium transition-colors">
+                      {u.email}
+                    </Link>
                   </td>
-                  <td className="py-2 capitalize">{u.plan}</td>
-                  <td className="text-right py-2">{parseInt(u.tokens_used).toLocaleString()}</td>
-                  <td className="text-right py-2 text-gray-500">{new Date(u.created_at).toLocaleDateString()}</td>
+                  <td className="py-3">
+                    <span className="rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-700 capitalize">
+                      {u.plan}
+                    </span>
+                  </td>
+                  <td className="py-3 text-right text-slate-900">{parseInt(u.tokens_used).toLocaleString()}</td>
+                  <td className="py-3 text-right text-slate-500">{new Date(u.created_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -126,38 +184,43 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Agents */}
-      <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Recent Agents</h2>
-          <Link href="/admin/agents" className="text-sm text-purple-600 hover:underline">View all →</Link>
+      <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-6">
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <Bot className="w-5 h-5 text-violet-600" />
+            <h2 className="text-lg font-bold text-slate-900">Recent Agents</h2>
+          </div>
+          <Link href="/admin/agents" className="text-sm text-violet-600 hover:text-violet-700 font-medium transition-colors">
+            View all
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-200">
-                <th className="text-left py-2">Name</th>
-                <th className="text-left py-2">Type</th>
-                <th className="text-left py-2">User</th>
-                <th className="text-left py-2">Status</th>
-                <th className="text-right py-2">Created</th>
+              <tr className="text-left text-slate-500 border-b border-slate-200">
+                <th className="pb-3 font-medium">Name</th>
+                <th className="pb-3 font-medium">Type</th>
+                <th className="pb-3 font-medium">User</th>
+                <th className="pb-3 font-medium">Status</th>
+                <th className="pb-3 font-medium text-right">Created</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {recentAgents.map((a) => (
-                <tr key={a.id} className="border-b border-gray-200 hover:bg-gray-50">
-                  <td className="py-2 font-semibold text-gray-900">{a.name}</td>
-                  <td className="py-2 text-gray-500">{a.type}</td>
-                  <td className="py-2 text-gray-500">{a.user_email}</td>
-                  <td className="py-2">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      a.status === 'active' ? 'bg-green-100 text-green-700' :
-                      a.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-gray-100 text-gray-500'
+                <tr key={a.id} className="hover:bg-slate-50 transition-colors duration-150">
+                  <td className="py-3 font-semibold text-slate-900">{a.name}</td>
+                  <td className="py-3 text-slate-500">{a.type}</td>
+                  <td className="py-3 text-slate-500">{a.user_email}</td>
+                  <td className="py-3">
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      a.status === 'active' ? 'bg-emerald-50 text-emerald-700' :
+                      a.status === 'pending' ? 'bg-amber-50 text-amber-700' :
+                      'bg-slate-100 text-slate-600'
                     }`}>
                       {a.status}
                     </span>
                   </td>
-                  <td className="text-right py-2 text-gray-500">{new Date(a.created_at).toLocaleDateString()}</td>
+                  <td className="py-3 text-right text-slate-500">{new Date(a.created_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

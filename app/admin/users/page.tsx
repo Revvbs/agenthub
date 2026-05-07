@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
+import { Search, Filter, ChevronLeft, ChevronRight, Mail, Users, ExternalLink } from 'lucide-react';
 
 interface User {
   id: string;
@@ -56,94 +57,116 @@ export default function AdminUsers() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-bold mb-2 text-gray-900">Users</h1>
-          <p className="text-gray-500">Manage all platform users</p>
+          <h1 className="text-3xl font-bold text-slate-900">Users</h1>
+          <p className="text-slate-500 mt-1">Manage all platform users</p>
         </div>
-        <div className="text-sm text-gray-500">
-          {pagination.total} total users
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <Users className="w-4 h-4" />
+          <span className="font-medium text-slate-700">{pagination.total}</span> total users
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <form onSubmit={handleSearch} className="flex-1">
+      <div className="flex gap-3 mb-6">
+        <form onSubmit={handleSearch} className="flex-1 relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Search by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white border border-gray-300 rounded px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 focus:outline-none transition-all duration-200"
           />
         </form>
-        <select
-          value={planFilter}
-          onChange={(e) => { setPlanFilter(e.target.value); setPage(1); }}
-          className="bg-white border border-gray-300 rounded px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none shadow-sm"
-        >
-          <option value="">All Plans</option>
-          <option value="starter">Starter</option>
-          <option value="pro">Pro</option>
-        </select>
+        <div className="relative">
+          <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <select
+            value={planFilter}
+            onChange={(e) => { setPlanFilter(e.target.value); setPage(1); }}
+            className="bg-white border border-slate-200 rounded-xl pl-10 pr-8 py-2.5 text-sm text-slate-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 focus:outline-none appearance-none transition-all duration-200"
+          >
+            <option value="">All Plans</option>
+            <option value="starter">Starter</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
       </div>
 
       {/* Table */}
-      <div className="border border-gray-200 rounded bg-white overflow-hidden shadow-sm">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-500 border-b border-gray-200 bg-gray-50">
-              <th className="text-left px-4 py-3">Email</th>
-              <th className="text-left px-4 py-3">Plan</th>
-              <th className="text-left px-4 py-3">Status</th>
-              <th className="text-right px-4 py-3">Agents</th>
-              <th className="text-right px-4 py-3">Tokens Used</th>
-              <th className="text-right px-4 py-3">Joined</th>
-              <th className="text-center px-4 py-3">Action</th>
+            <tr className="text-left text-slate-500 border-b border-slate-200 bg-slate-50/50">
+              <th className="px-6 py-3.5 font-medium">Email</th>
+              <th className="px-6 py-3.5 font-medium">Plan</th>
+              <th className="px-6 py-3.5 font-medium">Status</th>
+              <th className="px-6 py-3.5 font-medium text-right">Agents</th>
+              <th className="px-6 py-3.5 font-medium text-right">Tokens Used</th>
+              <th className="px-6 py-3.5 font-medium text-right">Joined</th>
+              <th className="px-6 py-3.5 font-medium text-center">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-gray-500">Loading...</td>
+                <td colSpan={7} className="text-center py-16 text-slate-500">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-violet-600"></div>
+                    Loading...
+                  </div>
+                </td>
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-gray-500">No users found</td>
+                <td colSpan={7} className="text-center py-16 text-slate-500">
+                  <Mail className="w-10 h-10 mx-auto text-slate-300 mb-2" />
+                  No users found
+                </td>
               </tr>
             ) : (
               users.map((u) => (
-                <tr key={u.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                  <td className="px-4 py-3">
+                <tr key={u.id} className="hover:bg-slate-50 transition-colors duration-150">
+                  <td className="px-6 py-3.5">
                     <div className="flex items-center gap-2">
-                      {u.role === 'admin' && <span className="text-purple-600">🔑</span>}
-                      <span className="font-medium text-gray-900">{u.email}</span>
+                      <span className="font-medium text-slate-900">{u.email}</span>
+                      {u.role === 'admin' && (
+                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold bg-violet-100 text-violet-700 uppercase tracking-wider">
+                          Admin
+                        </span>
+                      )}
                     </div>
                   </td>
-                  <td className="px-4 py-3 capitalize">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      u.plan === 'pro' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
-                    }`}>{u.plan}</span>
+                  <td className="px-6 py-3.5">
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      u.plan === 'pro' ? 'bg-violet-50 text-violet-700' : 'bg-slate-100 text-slate-600'
+                    }`}>
+                      {u.plan}
+                    </span>
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      u.status === 'active' ? 'bg-green-100 text-green-700' :
-                      u.status === 'suspended' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>{u.status}</span>
+                  <td className="px-6 py-3.5">
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      u.status === 'active' ? 'bg-emerald-50 text-emerald-700' :
+                      u.status === 'suspended' ? 'bg-amber-50 text-amber-700' :
+                      'bg-red-50 text-red-700'
+                    }`}>
+                      {u.status}
+                    </span>
                   </td>
-                  <td className="text-right px-4 py-3 text-gray-900">{u.agent_count}</td>
-                  <td className="text-right px-4 py-3">
-                    <div className="text-gray-900">{parseInt(String(u.tokens_used)).toLocaleString()}</div>
-                    <div className="text-xs text-gray-500">/ {parseInt(String(u.tokens_limit)).toLocaleString()}</div>
+                  <td className="px-6 py-3.5 text-right text-slate-900">{u.agent_count}</td>
+                  <td className="px-6 py-3.5 text-right">
+                    <div className="text-slate-900">{parseInt(String(u.tokens_used)).toLocaleString()}</div>
+                    <div className="text-xs text-slate-400">/ {parseInt(String(u.tokens_limit)).toLocaleString()}</div>
                   </td>
-                  <td className="text-right px-4 py-3 text-gray-500">{new Date(u.created_at).toLocaleDateString()}</td>
-                  <td className="text-center px-4 py-3">
+                  <td className="px-6 py-3.5 text-right text-slate-500">{new Date(u.created_at).toLocaleDateString()}</td>
+                  <td className="px-6 py-3.5 text-center">
                     <Link
                       href={`/admin/users/${u.id}`}
-                      className="text-purple-600 hover:underline text-xs"
+                      className="inline-flex items-center gap-1.5 text-violet-600 hover:text-violet-700 text-xs font-medium transition-colors"
                     >
-                      Details →
+                      Details
+                      <ExternalLink className="w-3 h-3" />
                     </Link>
                   </td>
                 </tr>
@@ -155,23 +178,25 @@ export default function AdminUsers() {
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-3 mt-6">
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-all duration-200"
           >
-            ← Prev
+            <ChevronLeft className="w-4 h-4" />
+            Prev
           </button>
-          <span className="px-4 py-2 text-gray-500">
-            Page {page} of {pagination.totalPages}
+          <span className="text-sm text-slate-500">
+            Page <span className="font-medium text-slate-700">{page}</span> of {pagination.totalPages}
           </span>
           <button
             onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
             disabled={page === pagination.totalPages}
-            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-all duration-200"
           >
-            Next →
+            Next
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       )}
