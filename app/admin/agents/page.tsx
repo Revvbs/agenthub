@@ -46,10 +46,10 @@ export default function AdminAgents() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-4xl font-bold mb-2">Agents</h1>
-          <p className="text-gray-400">Monitor all deployed agents</p>
+          <h1 className="text-4xl font-bold mb-2 text-gray-900">Agents</h1>
+          <p className="text-gray-500">Monitor all deployed agents</p>
         </div>
-        <div className="text-sm text-gray-400">{pagination.total} total agents</div>
+        <div className="text-sm text-gray-500">{pagination.total} total agents</div>
       </div>
 
       {/* Status Filter */}
@@ -61,7 +61,7 @@ export default function AdminAgents() {
             className={`px-4 py-2 rounded text-sm transition ${
               statusFilter === s
                 ? 'bg-purple-600 text-white'
-                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             {s === '' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}
@@ -70,10 +70,10 @@ export default function AdminAgents() {
       </div>
 
       {/* Table */}
-      <div className="border border-gray-800 rounded bg-gray-900 overflow-hidden">
+      <div className="border border-gray-200 rounded bg-white overflow-hidden shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 border-b border-gray-800 bg-gray-950">
+            <tr className="text-gray-500 border-b border-gray-200 bg-gray-50">
               <th className="text-left px-4 py-3">Agent Name</th>
               <th className="text-left px-4 py-3">Type</th>
               <th className="text-left px-4 py-3">User</th>
@@ -90,23 +90,23 @@ export default function AdminAgents() {
               <tr><td colSpan={7} className="text-center py-12 text-gray-500">No agents found</td></tr>
             ) : (
               agents.map((a) => (
-                <tr key={a.id} className="border-b border-gray-800 hover:bg-gray-800 transition">
-                  <td className="px-4 py-3 font-semibold">{a.name}</td>
-                  <td className="px-4 py-3 text-gray-400">{a.type}</td>
+                <tr key={a.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
+                  <td className="px-4 py-3 font-semibold text-gray-900">{a.name}</td>
+                  <td className="px-4 py-3 text-gray-500">{a.type}</td>
                   <td className="px-4 py-3">
-                    <Link href={`/admin/users/${a.user_id}`} className="text-blue-400 hover:underline">
+                    <Link href={`/admin/users/${a.user_id}`} className="text-blue-600 hover:underline">
                       {a.user_email}
                     </Link>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      a.status === 'active' ? 'bg-green-900 text-green-300' :
-                      a.status === 'pending' ? 'bg-yellow-900 text-yellow-300' :
-                      'bg-gray-800 text-gray-400'
+                      a.status === 'active' ? 'bg-green-100 text-green-700' :
+                      a.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-gray-100 text-gray-500'
                     }`}>{a.status}</span>
                   </td>
-                  <td className="text-right px-4 py-3">{a.total_messages.toLocaleString()}</td>
-                  <td className="text-right px-4 py-3">{a.total_tokens.toLocaleString()}</td>
+                  <td className="text-right px-4 py-3 text-gray-900">{a.total_messages.toLocaleString()}</td>
+                  <td className="text-right px-4 py-3 text-gray-900">{a.total_tokens.toLocaleString()}</td>
                   <td className="text-right px-4 py-3 text-gray-500">{new Date(a.created_at).toLocaleDateString()}</td>
                 </tr>
               ))
@@ -121,13 +121,13 @@ export default function AdminAgents() {
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-800 rounded disabled:opacity-50 hover:bg-gray-700 transition"
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
           >← Prev</button>
-          <span className="px-4 py-2 text-gray-400">Page {page} of {pagination.totalPages}</span>
+          <span className="px-4 py-2 text-gray-500">Page {page} of {pagination.totalPages}</span>
           <button
             onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
             disabled={page === pagination.totalPages}
-            className="px-4 py-2 bg-gray-800 rounded disabled:opacity-50 hover:bg-gray-700 transition"
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
           >Next →</button>
         </div>
       )}

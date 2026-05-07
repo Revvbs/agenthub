@@ -76,8 +76,8 @@ export default function AdminUserDetail() {
     return (
       <div className="text-center py-20">
         <div className="text-6xl mb-4">❌</div>
-        <h1 className="text-2xl font-bold mb-2">User not found</h1>
-        <Link href="/admin/users" className="text-purple-400 hover:underline">← Back to users</Link>
+        <h1 className="text-2xl font-bold mb-2 text-gray-900">User not found</h1>
+        <Link href="/admin/users" className="text-purple-600 hover:underline">← Back to users</Link>
       </div>
     );
   }
@@ -88,14 +88,14 @@ export default function AdminUserDetail() {
   return (
     <div>
       <div className="mb-8">
-        <Link href="/admin/users" className="text-purple-400 hover:underline text-sm">← Back to users</Link>
-        <h1 className="text-4xl font-bold mt-2">{user.email}</h1>
+        <Link href="/admin/users" className="text-purple-600 hover:underline text-sm">← Back to users</Link>
+        <h1 className="text-4xl font-bold mt-2 text-gray-900">{user.email}</h1>
         <div className="flex gap-2 mt-2">
           <span className={`px-2 py-1 rounded text-xs ${
-            user.role === 'admin' ? 'bg-purple-900 text-purple-300' : 'bg-gray-800 text-gray-300'
+            user.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'
           }`}>{user.role}</span>
           <span className={`px-2 py-1 rounded text-xs ${
-            user.status === 'active' ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'
+            user.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
           }`}>{user.status}</span>
         </div>
       </div>
@@ -103,35 +103,35 @@ export default function AdminUserDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Edit User */}
         <div className="lg:col-span-1">
-          <div className="border border-gray-800 rounded p-6 bg-gray-900">
-            <h2 className="text-xl font-bold mb-4">✏️ Edit User</h2>
+          <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">✏️ Edit User</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Plan</label>
+                <label className="block text-sm text-gray-500 mb-1">Plan</label>
                 <select
                   value={editPlan}
                   onChange={(e) => setEditPlan(e.target.value)}
-                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900"
                 >
                   <option value="starter">Starter</option>
                   <option value="pro">Pro</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Tokens Limit</label>
+                <label className="block text-sm text-gray-500 mb-1">Tokens Limit</label>
                 <input
                   type="number"
                   value={editTokensLimit}
                   onChange={(e) => setEditTokensLimit(Number(e.target.value))}
-                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Status</label>
+                <label className="block text-sm text-gray-500 mb-1">Status</label>
                 <select
                   value={editStatus}
                   onChange={(e) => setEditStatus(e.target.value)}
-                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900"
                 >
                   <option value="active">Active</option>
                   <option value="suspended">Suspended</option>
@@ -141,7 +141,7 @@ export default function AdminUserDetail() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded font-semibold transition disabled:opacity-50"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded font-semibold transition disabled:opacity-50"
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>
@@ -149,15 +149,15 @@ export default function AdminUserDetail() {
           </div>
 
           {/* Usage Summary */}
-          <div className="border border-gray-800 rounded p-6 bg-gray-900 mt-6">
-            <h2 className="text-xl font-bold mb-4">📊 Usage Summary</h2>
+          <div className="border border-gray-200 rounded p-6 bg-white shadow-sm mt-6">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">📊 Usage Summary</h2>
             <div className="space-y-3">
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Tokens</span>
-                  <span>{parseInt(String(user.tokens_used)).toLocaleString()} / {parseInt(String(user.tokens_limit)).toLocaleString()}</span>
+                  <span className="text-gray-500">Tokens</span>
+                  <span className="text-gray-900">{parseInt(String(user.tokens_used)).toLocaleString()} / {parseInt(String(user.tokens_limit)).toLocaleString()}</span>
                 </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full ${tokensPercent > 90 ? 'bg-red-500' : tokensPercent > 70 ? 'bg-yellow-500' : 'bg-purple-500'}`}
                     style={{ width: `${Math.min(tokensPercent, 100)}%` }}
@@ -165,12 +165,12 @@ export default function AdminUserDetail() {
                 </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Messages</span>
-                <span>{usage.totalMessages.toLocaleString()}</span>
+                <span className="text-gray-500">Total Messages</span>
+                <span className="text-gray-900">{usage.totalMessages.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Joined</span>
-                <span>{new Date(user.created_at).toLocaleDateString()}</span>
+                <span className="text-gray-500">Joined</span>
+                <span className="text-gray-900">{new Date(user.created_at).toLocaleDateString()}</span>
               </div>
             </div>
           </div>
@@ -179,22 +179,22 @@ export default function AdminUserDetail() {
         {/* Right: Agents + Billing */}
         <div className="lg:col-span-2 space-y-6">
           {/* Agents */}
-          <div className="border border-gray-800 rounded p-6 bg-gray-900">
-            <h2 className="text-xl font-bold mb-4">🤖 Agents ({agents.length})</h2>
+          <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">🤖 Agents ({agents.length})</h2>
             {agents.length === 0 ? (
               <p className="text-gray-500 text-center py-4">No agents</p>
             ) : (
               <div className="space-y-3">
                 {agents.map((a: any) => (
-                  <div key={a.id} className="flex justify-between items-center p-3 bg-gray-800 rounded">
+                  <div key={a.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                     <div>
-                      <div className="font-semibold">{a.name}</div>
-                      <div className="text-sm text-gray-400">{a.type}</div>
+                      <div className="font-semibold text-gray-900">{a.name}</div>
+                      <div className="text-sm text-gray-500">{a.type}</div>
                     </div>
                     <span className={`px-2 py-1 rounded text-xs ${
-                      a.status === 'active' ? 'bg-green-900 text-green-300' :
-                      a.status === 'pending' ? 'bg-yellow-900 text-yellow-300' :
-                      'bg-gray-700 text-gray-400'
+                      a.status === 'active' ? 'bg-green-100 text-green-700' :
+                      a.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-gray-100 text-gray-500'
                     }`}>{a.status}</span>
                   </div>
                 ))}
@@ -203,14 +203,14 @@ export default function AdminUserDetail() {
           </div>
 
           {/* Billing History */}
-          <div className="border border-gray-800 rounded p-6 bg-gray-900">
-            <h2 className="text-xl font-bold mb-4">💰 Billing History</h2>
+          <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">💰 Billing History</h2>
             {billing.length === 0 ? (
               <p className="text-gray-500 text-center py-4">No billing history</p>
             ) : (
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-gray-400 border-b border-gray-800">
+                  <tr className="text-gray-500 border-b border-gray-200">
                     <th className="text-left py-2">Plan</th>
                     <th className="text-right py-2">Amount</th>
                     <th className="text-left py-2">Status</th>
@@ -219,14 +219,14 @@ export default function AdminUserDetail() {
                 </thead>
                 <tbody>
                   {billing.map((b: any) => (
-                    <tr key={b.id} className="border-b border-gray-800">
-                      <td className="py-2 capitalize">{b.plan}</td>
-                      <td className="text-right py-2">Rp {parseFloat(b.amount).toLocaleString()}</td>
+                    <tr key={b.id} className="border-b border-gray-200">
+                      <td className="py-2 capitalize text-gray-900">{b.plan}</td>
+                      <td className="text-right py-2 text-gray-900">Rp {parseFloat(b.amount).toLocaleString()}</td>
                       <td className="py-2">
                         <span className={`px-2 py-1 rounded text-xs ${
-                          b.status === 'paid' ? 'bg-green-900 text-green-300' :
-                          b.status === 'pending' ? 'bg-yellow-900 text-yellow-300' :
-                          'bg-red-900 text-red-300'
+                          b.status === 'paid' ? 'bg-green-100 text-green-700' :
+                          b.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
                         }`}>{b.status}</span>
                       </td>
                       <td className="text-right py-2 text-gray-500">{new Date(b.created_at).toLocaleDateString()}</td>

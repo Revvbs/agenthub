@@ -66,7 +66,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading dashboard...</p>
+          <p className="text-gray-500">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -78,40 +78,40 @@ export default function Dashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Welcome back, {user?.email?.split('@')[0]}</h1>
-        <p className="text-gray-400">Manage your AI agents and monitor performance</p>
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome back, {user?.email?.split('@')[0]}</h1>
+        <p className="text-gray-500">Manage your AI agents and monitor performance</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="border border-gray-800 rounded p-6 bg-gray-900">
+        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
           <div className="text-3xl mb-2">🤖</div>
-          <div className="text-gray-400 text-sm">Active Agents</div>
-          <div className="text-2xl font-bold">{activeAgents} / {agents.length}</div>
+          <div className="text-gray-500 text-sm">Active Agents</div>
+          <div className="text-2xl font-bold text-gray-900">{activeAgents} / {agents.length}</div>
         </div>
 
-        <div className="border border-gray-800 rounded p-6 bg-gray-900">
+        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
           <div className="text-3xl mb-2">💬</div>
-          <div className="text-gray-400 text-sm">Messages Today</div>
-          <div className="text-2xl font-bold">{usage?.today.messages.toLocaleString() || 0}</div>
+          <div className="text-gray-500 text-sm">Messages Today</div>
+          <div className="text-2xl font-bold text-gray-900">{usage?.today.messages.toLocaleString() || 0}</div>
         </div>
 
-        <div className="border border-gray-800 rounded p-6 bg-gray-900">
+        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
           <div className="text-3xl mb-2">⚡</div>
-          <div className="text-gray-400 text-sm">Tokens Used</div>
-          <div className="text-2xl font-bold">
+          <div className="text-gray-500 text-sm">Tokens Used</div>
+          <div className="text-2xl font-bold text-gray-900">
             {usage ? `${(usage.tokensUsed / 1000).toFixed(1)}K` : '0K'}
           </div>
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-gray-400 mt-1">
             {tokensUsedPercent.toFixed(1)}% of limit
           </div>
         </div>
 
-        <div className="border border-gray-800 rounded p-6 bg-gray-900">
+        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
           <div className="text-3xl mb-2">📊</div>
-          <div className="text-gray-400 text-sm">Plan</div>
-          <div className="text-2xl font-bold capitalize">{user?.plan}</div>
-          <Link href="/dashboard/settings" className="text-xs text-blue-400 hover:underline mt-1 inline-block">
+          <div className="text-gray-500 text-sm">Plan</div>
+          <div className="text-2xl font-bold text-gray-900 capitalize">{user?.plan}</div>
+          <Link href="/dashboard/settings" className="text-xs text-blue-600 hover:underline mt-1 inline-block">
             Upgrade →
           </Link>
         </div>
@@ -119,14 +119,14 @@ export default function Dashboard() {
 
       {/* Token Usage Bar */}
       {usage && (
-        <div className="border border-gray-800 rounded p-6 bg-gray-900 mb-8">
+        <div className="border border-gray-200 rounded p-6 bg-white shadow-sm mb-8">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="font-semibold">Token Usage</h3>
-            <span className="text-sm text-gray-400">
+            <h3 className="font-semibold text-gray-900">Token Usage</h3>
+            <span className="text-sm text-gray-500">
               {usage.tokensUsed.toLocaleString()} / {usage.tokensLimit.toLocaleString()}
             </span>
           </div>
-          <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+          <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all ${
                 tokensUsedPercent > 90 ? 'bg-red-500' : tokensUsedPercent > 70 ? 'bg-yellow-500' : 'bg-blue-500'
@@ -135,18 +135,18 @@ export default function Dashboard() {
             ></div>
           </div>
           {tokensUsedPercent > 90 && (
-            <p className="text-sm text-red-400 mt-2">⚠️ Token limit almost reached. Consider upgrading your plan.</p>
+            <p className="text-sm text-red-600 mt-2">⚠️ Token limit almost reached. Consider upgrading your plan.</p>
           )}
         </div>
       )}
 
       {/* Active Agents */}
-      <div className="border border-gray-800 rounded p-6 bg-gray-900">
+      <div className="border border-gray-200 rounded p-6 bg-white shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Your Agents</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Your Agents</h2>
           <Link
             href="/dashboard/agents"
-            className="text-sm text-blue-400 hover:underline"
+            className="text-sm text-blue-600 hover:underline"
           >
             View all →
           </Link>
@@ -155,11 +155,11 @@ export default function Dashboard() {
         {agents.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🤖</div>
-            <h3 className="text-xl font-semibold mb-2">No agents yet</h3>
-            <p className="text-gray-400 mb-6">Create your first AI agent to get started</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No agents yet</h3>
+            <p className="text-gray-500 mb-6">Create your first AI agent to get started</p>
             <Link
               href="/dashboard/agents"
-              className="inline-block bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded font-semibold transition"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-semibold transition"
             >
               + Create Agent
             </Link>
@@ -170,23 +170,23 @@ export default function Dashboard() {
               <Link
                 key={agent.id}
                 href={`/dashboard/agents/${agent.id}`}
-                className="block border border-gray-700 rounded p-4 hover:border-blue-500 transition"
+                className="block border border-gray-200 rounded p-4 hover:border-blue-500 hover:shadow-sm transition"
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-bold">{agent.name}</h3>
-                    <p className="text-sm text-gray-400">{agent.type}</p>
+                    <h3 className="font-bold text-gray-900">{agent.name}</h3>
+                    <p className="text-sm text-gray-500">{agent.type}</p>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-2 justify-end mb-1">
                       <span
                         className={`w-2 h-2 rounded-full ${
-                          agent.status === 'active' ? 'bg-green-500' : 'bg-gray-500'
+                          agent.status === 'active' ? 'bg-green-500' : 'bg-gray-400'
                         }`}
                       ></span>
-                      <span className="text-sm capitalize">{agent.status}</span>
+                      <span className="text-sm text-gray-700 capitalize">{agent.status}</span>
                     </div>
-                    <p className="text-sm text-gray-400">{agent.messagesToday} messages today</p>
+                    <p className="text-sm text-gray-500">{agent.messagesToday} messages today</p>
                   </div>
                 </div>
               </Link>

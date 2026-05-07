@@ -58,10 +58,10 @@ export default function AdminUsers() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-4xl font-bold mb-2">Users</h1>
-          <p className="text-gray-400">Manage all platform users</p>
+          <h1 className="text-4xl font-bold mb-2 text-gray-900">Users</h1>
+          <p className="text-gray-500">Manage all platform users</p>
         </div>
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-gray-500">
           {pagination.total} total users
         </div>
       </div>
@@ -74,13 +74,13 @@ export default function AdminUsers() {
             placeholder="Search by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white focus:border-purple-500 focus:outline-none"
+            className="w-full bg-white border border-gray-300 rounded px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none shadow-sm"
           />
         </form>
         <select
           value={planFilter}
           onChange={(e) => { setPlanFilter(e.target.value); setPage(1); }}
-          className="bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white focus:border-purple-500 focus:outline-none"
+          className="bg-white border border-gray-300 rounded px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none shadow-sm"
         >
           <option value="">All Plans</option>
           <option value="starter">Starter</option>
@@ -89,10 +89,10 @@ export default function AdminUsers() {
       </div>
 
       {/* Table */}
-      <div className="border border-gray-800 rounded bg-gray-900 overflow-hidden">
+      <div className="border border-gray-200 rounded bg-white overflow-hidden shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 border-b border-gray-800 bg-gray-950">
+            <tr className="text-gray-500 border-b border-gray-200 bg-gray-50">
               <th className="text-left px-4 py-3">Email</th>
               <th className="text-left px-4 py-3">Plan</th>
               <th className="text-left px-4 py-3">Status</th>
@@ -113,35 +113,35 @@ export default function AdminUsers() {
               </tr>
             ) : (
               users.map((u) => (
-                <tr key={u.id} className="border-b border-gray-800 hover:bg-gray-800 transition">
+                <tr key={u.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      {u.role === 'admin' && <span className="text-purple-400">🔑</span>}
-                      <span className="font-medium">{u.email}</span>
+                      {u.role === 'admin' && <span className="text-purple-600">🔑</span>}
+                      <span className="font-medium text-gray-900">{u.email}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3 capitalize">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      u.plan === 'pro' ? 'bg-blue-900 text-blue-300' : 'bg-gray-800 text-gray-300'
+                      u.plan === 'pro' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
                     }`}>{u.plan}</span>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      u.status === 'active' ? 'bg-green-900 text-green-300' :
-                      u.status === 'suspended' ? 'bg-yellow-900 text-yellow-300' :
-                      'bg-red-900 text-red-300'
+                      u.status === 'active' ? 'bg-green-100 text-green-700' :
+                      u.status === 'suspended' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-red-100 text-red-700'
                     }`}>{u.status}</span>
                   </td>
-                  <td className="text-right px-4 py-3">{u.agent_count}</td>
+                  <td className="text-right px-4 py-3 text-gray-900">{u.agent_count}</td>
                   <td className="text-right px-4 py-3">
-                    <div>{parseInt(String(u.tokens_used)).toLocaleString()}</div>
+                    <div className="text-gray-900">{parseInt(String(u.tokens_used)).toLocaleString()}</div>
                     <div className="text-xs text-gray-500">/ {parseInt(String(u.tokens_limit)).toLocaleString()}</div>
                   </td>
                   <td className="text-right px-4 py-3 text-gray-500">{new Date(u.created_at).toLocaleDateString()}</td>
                   <td className="text-center px-4 py-3">
                     <Link
                       href={`/admin/users/${u.id}`}
-                      className="text-purple-400 hover:underline text-xs"
+                      className="text-purple-600 hover:underline text-xs"
                     >
                       Details →
                     </Link>
@@ -159,17 +159,17 @@ export default function AdminUsers() {
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-800 rounded disabled:opacity-50 hover:bg-gray-700 transition"
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
           >
             ← Prev
           </button>
-          <span className="px-4 py-2 text-gray-400">
+          <span className="px-4 py-2 text-gray-500">
             Page {page} of {pagination.totalPages}
           </span>
           <button
             onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
             disabled={page === pagination.totalPages}
-            className="px-4 py-2 bg-gray-800 rounded disabled:opacity-50 hover:bg-gray-700 transition"
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50 hover:bg-gray-200 transition text-gray-900"
           >
             Next →
           </button>

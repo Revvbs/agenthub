@@ -22,22 +22,22 @@ export default function DashboardLayout({
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-white text-gray-900">
         {/* Sidebar */}
-        <div className="fixed left-0 top-0 w-64 h-screen border-r border-gray-800 bg-gray-950 p-6 flex flex-col">
+        <div className="fixed left-0 top-0 w-64 h-screen border-r border-gray-200 bg-white p-6 flex flex-col">
           <div className="text-2xl font-bold mb-8">
             <Link href="/">
-              <span className="text-blue-500">&lt;</span>
+              <span className="text-blue-600">&lt;</span>
               AgentHub
-              <span className="text-blue-500">/&gt;</span>
+              <span className="text-blue-600">/&gt;</span>
             </Link>
           </div>
           
           {/* User info */}
-          <div className="mb-6 p-3 bg-gray-900 rounded border border-gray-800">
-            <div className="text-sm text-gray-400">Logged in as</div>
+          <div className="mb-6 p-3 bg-gray-50 rounded border border-gray-200">
+            <div className="text-sm text-gray-500">Logged in as</div>
             <div className="font-semibold truncate">{user?.email}</div>
-            <div className="text-xs text-blue-400 mt-1 uppercase">{user?.plan} Plan</div>
+            <div className="text-xs text-blue-600 mt-1 uppercase">{user?.plan} Plan</div>
           </div>
 
           <nav className="space-y-2 flex-1">
@@ -50,7 +50,7 @@ export default function DashboardLayout({
                   className={`block px-4 py-2 rounded transition ${
                     isActive
                       ? 'bg-blue-600 text-white'
-                      : 'hover:bg-gray-800 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-700'
                   }`}
                 >
                   {item.label}
@@ -59,10 +59,10 @@ export default function DashboardLayout({
             })}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-gray-800">
+          <div className="mt-auto pt-6 border-t border-gray-200">
             <button
               onClick={logout}
-              className="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-semibold transition"
+              className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition"
             >
               Logout
             </button>
