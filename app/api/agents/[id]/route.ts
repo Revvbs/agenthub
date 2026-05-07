@@ -2,11 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { withAuth, AuthenticatedRequest } from '@/lib/auth-middleware';
 
+function extractId(req: NextRequest): string | null {
+  const parts = req.url.split('/api/agents/');
+  return parts[1]?.split('?')[0]?.split('/')[0] || null;
+}
+
 // GET /api/agents/[id] - Get single agent
-async function getAgent(req: AuthenticatedRequest, { params }: { params: { id: string } }) {
+async function getAgent(req: AuthenticatedRequest) {
   try {
     const userId = req.user?.userId;
-    const agentId = params.id;
+    const agentId = extractId(req);
+    if (!agentId) {
+      return NextResponse.json({ error: 'Agent ID required' }, { status: 400 });
+    }
 
     const result = await query(
       `SELECT id, name, type, status, config, whatsapp_number, api_key, created_at, updated_at
@@ -60,10 +68,14 @@ async function getAgent(req: AuthenticatedRequest, { params }: { params: { id: s
 }
 
 // PATCH /api/agents/[id] - Update agent
-async function updateAgent(req: AuthenticatedRequest, { params }: { params: { id: string } }) {
+async function updateAgent(req: AuthenticatedRequest) {
   try {
     const userId = req.user?.userId;
-    const agentId = params.id;
+    const agentId = extractId(req);
+    if (!agentId) {
+      return NextResponse.json({ error: 'Agent ID required' }, { status: 400 });
+    }
+
     const body = await req.json();
     const { name, status, config, whatsappNumber } = body;
 
@@ -144,10 +156,13 @@ async function updateAgent(req: AuthenticatedRequest, { params }: { params: { id
 }
 
 // DELETE /api/agents/[id] - Delete agent
-async function deleteAgent(req: AuthenticatedRequest, { params }: { params: { id: string } }) {
+async function deleteAgent(req: AuthenticatedRequest) {
   try {
     const userId = req.user?.userId;
-    const agentId = params.id;
+    const agentId = extractId(req);
+    if (!agentId) {
+      return NextResponse.json({ error: 'Agent ID required' }, { status: 400 });
+    }
 
     const result = await query(
       'DELETE FROM agents WHERE id = $1 AND user_id = $2 RETURNING id',

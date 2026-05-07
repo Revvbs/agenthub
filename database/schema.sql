@@ -6,9 +6,11 @@ CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
+  role VARCHAR(20) NOT NULL DEFAULT 'user', -- user, admin
   plan VARCHAR(50) NOT NULL DEFAULT 'starter', -- starter, pro
   tokens_limit BIGINT NOT NULL DEFAULT 500000,
   tokens_used BIGINT NOT NULL DEFAULT 0,
+  status VARCHAR(20) NOT NULL DEFAULT 'active', -- active, suspended, banned
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -52,7 +54,9 @@ CREATE TABLE billing (
 
 -- Indexes
 CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_agents_user_id ON agents(user_id);
+CREATE INDEX idx_agents_status ON agents(status);
 CREATE INDEX idx_usage_logs_user_id ON usage_logs(user_id);
 CREATE INDEX idx_usage_logs_timestamp ON usage_logs(timestamp);
 CREATE INDEX idx_billing_user_id ON billing(user_id);
