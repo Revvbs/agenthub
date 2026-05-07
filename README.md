@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AgentHub 🤖
 
-## Getting Started
+AI Agent platform untuk UMKM. Otomatisasi customer service, kelola penjualan, dan tingkatkan efisiensi bisnis.
 
-First, run the development server:
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL 14+
+- npm atau yarn
+
+### Installation
 
 ```bash
+# Clone repo
+git clone https://github.com/yourusername/agenthub.git
+cd agenthub
+
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env.local
+# Edit .env.local dengan credentials lo
+
+# Setup database
+psql -U postgres -d agenthub -f database/schema.sql
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+agenthub/
+├── app/
+│   ├── api/              # API routes
+│   │   ├── auth/         # Authentication
+│   │   └── agents/       # Agent management
+│   ├── dashboard/        # Dashboard pages
+│   └── page.tsx          # Landing page
+├── database/
+│   └── schema.sql        # PostgreSQL schema
+├── lib/                  # Utilities & helpers
+├── public/               # Static files
+└── package.json
+```
 
-## Learn More
+## 🎯 Features (MVP)
 
-To learn more about Next.js, take a look at the following resources:
+- ✅ Landing page dengan pricing
+- ✅ User authentication
+- ✅ Dashboard
+- 🔄 Agent management (WIP)
+- 🔄 WhatsApp CS bot integration (WIP)
+- 🔄 Sales data helper (WIP)
+- 🔄 Usage tracking & billing (WIP)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💰 Pricing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Plan | Monthly | Setup | Tokens |
+|------|---------|-------|--------|
+| Starter | Rp 100K | Rp 500K | 500K/bulan |
+| Pro | Rp 500K | Rp 1M | 5M/bulan |
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend:** Next.js 14, TypeScript, Tailwind CSS
+- **Backend:** Node.js, Express (coming soon)
+- **Database:** PostgreSQL
+- **LLM:** DeepSeek V4 Flash, MiMo V2.5
+- **Hosting:** Vercel (frontend), Railway (backend)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📝 Development Roadmap
+
+- [ ] Day 1-2: Landing page + Dashboard UI ✅
+- [ ] Day 3-4: Backend API + Database
+- [ ] Day 5-6: Agent templates (WA CS + Sales)
+- [ ] Day 7: Testing & Deploy
+
+## 🔐 Security
+
+- JWT authentication
+- Password hashing (bcrypt)
+- API key rotation
+- Rate limiting (coming soon)
+
+## 📞 Support
+
+Email: support@agenthub.local
+
+---
+
+Built with ❤️ for UMKM
