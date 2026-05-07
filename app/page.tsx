@@ -90,10 +90,14 @@ export default function Home() {
             AgentHub
             <span className="text-blue-600">/&gt;</span>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-6 items-center">
             <a href="#features" className="hover:text-blue-600 transition">Features</a>
             <a href="#pricing" className="hover:text-blue-600 transition">Pricing</a>
             <a href="#faq" className="hover:text-blue-600 transition">FAQ</a>
+            <Link href="/login" className="hover:text-blue-600 transition">Login</Link>
+            <Link href="/register" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+              Get Started
+            </Link>
           </div>
         </div>
       </nav>
