@@ -400,13 +400,13 @@ export default function Home() {
       {selectedPlan && (() => {
         const details = planDetails[selectedPlan.toLowerCase() as keyof typeof planDetails];
         return (
-          <section className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
-            <div className="bg-white rounded-xl max-w-3xl w-full my-8 shadow-xl">
-              <div className="p-6 border-b border-slate-200">
+          <section className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center p-3 md:p-4 pt-[max(env(safe-area-inset-top),12px)] md:pt-4 z-50 overflow-y-auto">
+            <div className="bg-white rounded-xl max-w-3xl w-full mt-3 md:mt-8 mb-4 shadow-xl max-h-[92vh] overflow-hidden">
+              <div className="p-4 md:p-6 border-b border-slate-200">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="text-2xl font-bold text-slate-900">{details.name} Plan</h2>
-                    <p className="text-slate-600 text-sm mt-1">{details.description}</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 break-words">{details.name} Plan</h2>
+                    <p className="text-slate-600 text-sm mt-1 break-words">{details.description}</p>
                   </div>
                   <button onClick={() => setSelectedPlan(null)} className="p-2 hover:bg-slate-100 rounded-lg transition-all duration-200">
                     <X className="w-5 h-5 text-slate-400" />
@@ -414,8 +414,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="p-6">
-                <div className="mb-6 p-5 bg-indigo-50 rounded-xl border border-indigo-100">
+              <div className="p-4 md:p-6 overflow-y-auto max-h-[calc(92vh-92px)]">
+                <div className="mb-6 p-4 md:p-5 bg-indigo-50 rounded-xl border border-indigo-100">
                   <div className="text-3xl font-bold text-slate-900">{details.price}<span className="text-base text-slate-500 font-normal">/bulan</span></div>
                   <div className="text-sm text-slate-600 mt-1">{details.tokens}</div>
                   <div className="text-xs text-slate-400 mt-1">{details.setup}</div>
@@ -428,7 +428,7 @@ export default function Home() {
                       {details.features.map((feature, i) => (
                         <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
                           <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                          <span>{feature}</span>
+                          <span className="break-words">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -440,7 +440,7 @@ export default function Home() {
                       {details.whatYouGet.map((item, i) => (
                         <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
                           <ArrowRight className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
+                          <span className="break-words">{item}</span>
                         </li>
                       ))}
                     </ul>
