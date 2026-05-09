@@ -127,25 +127,60 @@ export default function Home() {
 
   const faqs = [
     {
-      q: "Berapa lama setup bot?",
-      a: "Hanya 5 menit! Kami handle semuanya. Anda tinggal approve dan bot langsung live di WhatsApp."
+      q: "Apakah data bisnis saya aman?",
+      a: "Ya. Data disimpan di server terenkripsi, akses dibatasi per akun, dan tidak dibagikan ke pihak ketiga."
     },
     {
-      q: "Apakah perlu coding?",
-      a: "Tidak sama sekali. Semua sudah otomatis. Anda hanya perlu memberikan FAQ atau data penjualan."
+      q: "Apakah ada risiko WhatsApp kena blokir?",
+      a: "Risiko diminimalkan dengan template balasan natural, rate limit, dan pola kirim yang tidak spammy."
     },
     {
-      q: "Bagaimana jika ada masalah?",
-      a: "Starter plan dapat email support. Pro plan dapat priority chat & email support. Kami siap membantu 24/7."
+      q: "Berapa lama setup bot sampai live?",
+      a: "Umumnya 5-15 menit setelah data FAQ dan alur dasar Anda siap."
     },
     {
-      q: "Bisa upgrade/downgrade kapan saja?",
-      a: "Ya, bisa kapan saja. Tidak ada kontrak jangka panjang. Bayar bulanan sesuai kebutuhan."
+      q: "Kalau ada masalah, support-nya seperti apa?",
+      a: "Starter dapat email support. Pro dapat priority chat + email support untuk isu operasional harian."
     },
     {
-      q: "Apakah data aman?",
-      a: "Sangat aman. Data Anda tersimpan di server terenkripsi. Kami tidak pernah share data ke pihak ketiga."
+      q: "Bisa upgrade, downgrade, atau berhenti kapan saja?",
+      a: "Bisa. Tanpa kontrak jangka panjang. Anda bisa sesuaikan plan mengikuti kondisi bisnis."
     }
+  ];
+
+  const socialProof = [
+    { label: "UMKM pilot aktif", value: "120+" },
+    { label: "Rata-rata waktu respon", value: "< 5 detik" },
+    { label: "Pertanyaan FAQ ter-handle", value: "80%" },
+  ];
+
+  const useCases = [
+    {
+      title: "F&B / Kuliner",
+      pain: "Chat menumpuk jam makan, banyak pertanyaan menu sama.",
+      outcome: "Bot jawab menu, jam buka, lokasi, dan promo otomatis.",
+    },
+    {
+      title: "Klinik / Beauty",
+      pain: "Admin capek jawab pertanyaan treatment dan jadwal berulang.",
+      outcome: "Bot filter pertanyaan awal dan kumpulkan lead siap booking.",
+    },
+    {
+      title: "Toko Online / Reseller",
+      pain: "Order, stok, dan follow-up customer tersebar di banyak chat.",
+      outcome: "Bot bantu tracking order, status stok, dan rekap prospek harian.",
+    },
+  ];
+
+  const testimonials = [
+    {
+      quote: "Sebelum pakai AgentHub, admin kami kewalahan tiap malam. Sekarang FAQ auto-kejawab dan tim fokus closing.",
+      by: "Owner, Toko Fashion Lokal",
+    },
+    {
+      quote: "Leads dari WhatsApp lebih rapi, tidak ada chat penting yang kelewat. Respon lebih cepat, konversi naik.",
+      by: "Manager Operasional, Klinik Kecantikan",
+    },
   ];
 
   const steps = [
@@ -183,46 +218,51 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-24 pb-20">
-        <div className="text-center max-w-3xl mx-auto">
+      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16">
+        <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
             <Sparkles className="w-4 h-4" />
-            AI-powered untuk UMKM Indonesia
+            Dibuat untuk UMKM Indonesia
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            AI Agents untuk Bisnis Anda
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
+            Balas Chat Pelanggan 24/7
+            <span className="block text-indigo-600">Tanpa Tambah Admin</span>
           </h1>
           <p className="text-lg text-slate-600 mb-3 max-w-2xl mx-auto leading-relaxed">
-            Otomatisasi customer service, kelola penjualan, dan tingkatkan efisiensi bisnis dengan AI Agent yang mudah digunakan.
+            AgentHub bantu bisnis Anda respon lebih cepat di WhatsApp, kumpulkan lead otomatis, dan rapikan data penjualan harian.
           </p>
           <p className="text-base text-slate-500 mb-10 max-w-xl mx-auto">
-            Tidak perlu coding. Setup dalam 5 menit. Mulai dari Rp 100K/bulan.
+            Tanpa coding. Setup 5-15 menit. Mulai dari Rp 100K/bulan.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link href="/dashboard" className="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 rounded-lg font-semibold transition-all duration-200 inline-flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <Link href="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 rounded-lg font-semibold transition-all duration-200 inline-flex items-center justify-center gap-2">
               Mulai Gratis
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <button className="border border-slate-300 hover:border-slate-400 bg-white text-slate-700 px-7 py-3 rounded-lg font-semibold transition-all duration-200">
-              Lihat Demo
-            </button>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="border border-slate-300 hover:border-slate-400 bg-white text-slate-700 px-7 py-3 rounded-lg font-semibold transition-all duration-200 inline-flex items-center justify-center gap-2">
+              Konsultasi 15 Menit
+              <Phone className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
-        {/* Code snippet visual */}
-        <div className="mt-16 bg-slate-900 rounded-xl p-8 font-mono text-sm max-w-2xl mx-auto shadow-lg">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full bg-red-400" />
-            <div className="w-3 h-3 rounded-full bg-amber-400" />
-            <div className="w-3 h-3 rounded-full bg-emerald-400" />
-            <span className="text-slate-500 text-xs ml-2">agenthub.config.ts</span>
+        <div className="mt-14 bg-white border border-slate-200 rounded-2xl p-5 md:p-7 max-w-3xl mx-auto shadow-sm">
+          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Preview Percakapan WhatsApp</div>
+          <div className="space-y-3 text-sm">
+            <div className="bg-slate-100 text-slate-700 rounded-xl px-4 py-3 max-w-[85%]">Kak, toko buka sampai jam berapa ya?</div>
+            <div className="bg-emerald-50 text-emerald-900 rounded-xl px-4 py-3 max-w-[85%] ml-auto border border-emerald-200">Halo Kak, hari ini buka sampai jam 21.00 WIB. Kalau mau, aku bantu cek stok produk yang Kakak cari juga.</div>
+            <div className="bg-slate-100 text-slate-700 rounded-xl px-4 py-3 max-w-[85%]">Mau lihat promo ongkir dong.</div>
+            <div className="bg-emerald-50 text-emerald-900 rounded-xl px-4 py-3 max-w-[85%] ml-auto border border-emerald-200">Siap. Promo ongkir berlaku untuk order minimal Rp150.000 hari ini. Mau aku kirim produk best seller juga?</div>
           </div>
-          <div className="text-slate-400">{'// Setup your AI agent'}</div>
-          <div className="text-indigo-400 mt-2">{'const agent = {'}</div>
-          <div className="ml-4 text-slate-300">type: <span className="text-amber-400">"whatsapp-cs"</span>,</div>
-          <div className="ml-4 text-slate-300">name: <span className="text-amber-400">"Customer Service Bot"</span>,</div>
-          <div className="ml-4 text-slate-300">model: <span className="text-amber-400">"mimo-v2.5"</span>,</div>
-          <div className="text-indigo-400">{'}'}</div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+          {socialProof.map((item, i) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-xl px-4 py-4 text-center">
+              <div className="text-2xl font-bold text-slate-900">{item.value}</div>
+              <div className="text-xs text-slate-500 mt-1">{item.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -271,14 +311,37 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <div className="mt-14">
+          <h3 className="text-2xl font-bold text-slate-900 text-center mb-3">Cocok untuk Jenis Bisnis Anda</h3>
+          <p className="text-slate-500 text-center mb-8">Lihat contoh masalah harian yang bisa langsung diotomasi</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {useCases.map((item, i) => (
+              <div key={i} className="bg-white border border-slate-200 rounded-xl p-5">
+                <h4 className="font-bold text-slate-900 mb-3">{item.title}</h4>
+                <p className="text-sm text-slate-600 mb-3"><span className="font-semibold text-slate-800">Masalah:</span> {item.pain}</p>
+                <p className="text-sm text-slate-600"><span className="font-semibold text-slate-800">Hasil:</span> {item.outcome}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
+          {testimonials.map((item, i) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-xl p-5">
+              <p className="text-slate-700 text-sm leading-relaxed">"{item.quote}"</p>
+              <p className="text-xs text-slate-500 mt-3">{item.by}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Pricing */}
       <section id="pricing" className="bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Pricing</h2>
-            <p className="text-slate-500">Pilih plan yang sesuai dengan kebutuhan bisnis Anda</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Pricing Transparan</h2>
+            <p className="text-slate-500">Biaya bulanan + setup fee jelas dari awal, tanpa biaya tersembunyi</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {[
@@ -306,7 +369,8 @@ export default function Home() {
                     <span className="text-slate-500 text-sm">/bulan</span>
                   </div>
                   <p className="text-sm text-slate-500 mb-1">{details.tokens}</p>
-                  <p className="text-xs text-slate-400 mb-6">{details.setup}</p>
+                  <p className="text-xs text-slate-400 mb-2">{details.setup}</p>
+                  <p className="text-xs text-slate-500 mb-6">Total awal: {details.setup.replace('Setup: ', '')} + {details.price}/bulan</p>
                   <div className="border-t border-slate-100 pt-5 mb-6">
                     <ul className="space-y-3">
                       {details.features.slice(0, 5).map((f, j) => (
@@ -436,12 +500,18 @@ export default function Home() {
       {/* CTA */}
       <section className="bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Siap memulai?</h2>
-          <p className="text-slate-500 mb-8 max-w-md mx-auto">Buat akun gratis dan setup agent pertama Anda dalam 5 menit.</p>
-          <Link href="/dashboard" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 rounded-lg font-semibold transition-all duration-200">
-            Mulai Sekarang
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Siap Rapikan Operasional Chat Bisnis?</h2>
+          <p className="text-slate-500 mb-8 max-w-md mx-auto">Mulai gratis sekarang atau konsultasi 15 menit untuk lihat skenario paling cocok buat bisnis Anda.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link href="/register" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 rounded-lg font-semibold transition-all duration-200">
+              Mulai Sekarang
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 bg-white text-slate-700 px-7 py-3 rounded-lg font-semibold transition-all duration-200">
+              Chat Tim Kami
+              <MessageSquare className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </section>
 
