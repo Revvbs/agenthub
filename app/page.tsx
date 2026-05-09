@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import {
   Bot,
   MessageSquare,
@@ -29,6 +29,12 @@ import {
 export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+
+  const handleLeadSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLeadSubmitted(true);
+  };
 
   const planDetails = {
     starter: {
@@ -396,13 +402,104 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Plan Comparison */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Bandingkan Plan dengan Cepat</h2>
+          <p className="text-slate-500">Pilih plan sesuai fase bisnis Anda saat ini</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div className="grid grid-cols-3 bg-slate-50 border-b border-slate-200">
+            <div className="p-4 text-sm font-semibold text-slate-700">Fitur</div>
+            <div className="p-4 text-sm font-semibold text-slate-900 text-center">Starter</div>
+            <div className="p-4 text-sm font-semibold text-slate-900 text-center">Pro</div>
+          </div>
+          {[
+            ["Harga bulanan", "Rp 100K", "Rp 500K"],
+            ["Setup awal", "Rp 500K", "Rp 1M"],
+            ["WhatsApp CS Bot", "1", "1"],
+            ["Sales Data Helper", "-", "1"],
+            ["Analytics dashboard", "Basic", "Advanced"],
+            ["Support", "Email", "Priority chat + email"],
+          ].map((row, i) => (
+            <div key={i} className="grid grid-cols-3 border-b border-slate-100 last:border-b-0">
+              <div className="p-4 text-sm text-slate-700">{row[0]}</div>
+              <div className="p-4 text-sm text-slate-900 text-center">{row[1]}</div>
+              <div className="p-4 text-sm text-slate-900 text-center">{row[2]}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Case Study */}
+      <section className="bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Contoh Hasil Nyata</h2>
+          <p className="text-slate-500 text-center mb-10">Simulasi dari use case UMKM yang sering kami temui</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+              <h3 className="font-bold text-slate-900 mb-4">Toko Online Fashion</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sebelum</p><p className="font-semibold text-slate-900">Respon 25-40 menit</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sesudah</p><p className="font-semibold text-emerald-700">Respon {'< 5 detik'}</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sebelum</p><p className="font-semibold text-slate-900">Lead tercecer</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sesudah</p><p className="font-semibold text-emerald-700">Lead tersimpan otomatis</p></div>
+              </div>
+            </div>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+              <h3 className="font-bold text-slate-900 mb-4">Klinik Kecantikan</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sebelum</p><p className="font-semibold text-slate-900">Admin overload malam</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sesudah</p><p className="font-semibold text-emerald-700">FAQ auto ter-handle</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sebelum</p><p className="font-semibold text-slate-900">Follow-up manual</p></div>
+                <div className="bg-white rounded-lg p-3 border border-slate-200"><p className="text-slate-500">Sesudah</p><p className="font-semibold text-emerald-700">Rekap harian otomatis</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Objection Handling */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Masih Ragu? Ini Jawaban Cepatnya</h2>
+        <p className="text-slate-500 text-center mb-10">Keberatan paling umum sebelum mulai otomasi</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="bg-white border border-slate-200 rounded-xl p-5"><h3 className="font-bold text-slate-900 mb-2">Takut chat jadi kaku?</h3><p className="text-sm text-slate-600">Template balasan bisa disesuaikan tone brand Anda, plus human takeover kapan saja.</p></div>
+          <div className="bg-white border border-slate-200 rounded-xl p-5"><h3 className="font-bold text-slate-900 mb-2">Takut WhatsApp kena limit?</h3><p className="text-sm text-slate-600">Kami pakai rate limit dan pola kirim aman untuk mengurangi risiko spam behavior.</p></div>
+          <div className="bg-white border border-slate-200 rounded-xl p-5"><h3 className="font-bold text-slate-900 mb-2">Takut tim bingung pakainya?</h3><p className="text-sm text-slate-600">Setup singkat + dashboard simple, tim Anda bisa adaptasi cepat tanpa coding.</p></div>
+        </div>
+      </section>
+
+      {/* Lead Form */}
+      <section className="bg-white border-y border-slate-200">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Mau Kami Rekomendasiin Setup Paling Pas?</h2>
+          <p className="text-slate-500 text-center mb-8">Isi singkat, tim kami bantu mapping kebutuhan bisnis Anda.</p>
+          {leadSubmitted ? (
+            <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-4 text-sm text-center">Terima kasih. Tim kami akan hubungi Anda segera lewat WhatsApp.</div>
+          ) : (
+            <form onSubmit={handleLeadSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
+              <input required type="text" placeholder="Nama bisnis" className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm" />
+              <input required type="tel" placeholder="Nomor WhatsApp aktif" className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm" />
+              <select required className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm bg-white text-slate-600">
+                <option value="">Volume chat per hari</option>
+                <option value="<50">{"< 50 chat"}</option>
+                <option value="50-200">50 - 200 chat</option>
+                <option value=">200">{"> 200 chat"}</option>
+              </select>
+              <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg text-sm transition-all duration-200">Minta Rekomendasi Setup</button>
+            </form>
+          )}
+        </div>
+      </section>
+
       {/* Plan Details Modal */}
       {selectedPlan && (() => {
         const details = planDetails[selectedPlan.toLowerCase() as keyof typeof planDetails];
         return (
-          <section className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center p-3 md:p-4 pt-[max(env(safe-area-inset-top),12px)] md:pt-4 z-50 overflow-y-auto">
-            <div className="bg-white rounded-xl max-w-3xl w-full mt-3 md:mt-8 mb-4 shadow-xl max-h-[92vh] overflow-hidden">
-              <div className="p-4 md:p-6 border-b border-slate-200">
+          <section className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center p-3 md:p-4 pt-[max(env(safe-area-inset-top),24px)] pb-[max(env(safe-area-inset-bottom),16px)] z-50 overflow-y-auto">
+            <div className="bg-white rounded-xl max-w-3xl w-full mt-5 md:mt-8 mb-4 shadow-xl max-h-[calc(100dvh-56px)] overflow-hidden">
+              <div className="p-4 md:p-6 border-b border-slate-200 sticky top-0 bg-white z-10">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-xl md:text-2xl font-bold text-slate-900 break-words">{details.name} Plan</h2>
@@ -514,6 +611,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Mobile Sticky CTA */}
+      <div className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white/95 backdrop-blur border-t border-slate-200 p-3 pb-[max(env(safe-area-inset-bottom),12px)]">
+        <div className="grid grid-cols-2 gap-2">
+          <Link href="/register" className="inline-flex items-center justify-center bg-indigo-600 text-white text-sm font-semibold rounded-lg py-2.5">Mulai Gratis</Link>
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center border border-slate-300 text-slate-700 text-sm font-semibold rounded-lg py-2.5">Chat WA</a>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="bg-[#F8FAFC] border-t border-slate-200">
